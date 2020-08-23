@@ -1,0 +1,24 @@
+%%% Matlab tutorial for BCS 519 stats course
+%
+% 08/2020  Ashley M. Clark 
+
+clear all
+clc
+
+%% Types of Data
+struct.matrix = [1 2 3; 4 5 6; 7 8 9];
+struct.vector = [1 2 3 4 5 6 7 8 9];
+
+%test = struct.matrix * struct.vector;
+
+%% load in data .mat file
+load tutorialData.mat
+
+x = [];
+for numTrials = 1:length(data.individualSizeChar.strokeWidth_4.position)
+    x = [x data.individualSizeChar.strokeWidth_4.position(numtr.x(numTrials)];
+end
+figure;
+ 
+histogram(x);
+
