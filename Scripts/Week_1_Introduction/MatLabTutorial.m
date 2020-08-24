@@ -1,7 +1,8 @@
-%%% Matlab tutorial for BCS 519 stats course
+%% Matlab tutorial for BCS 519 stats course
+%
 % Looking at x y eye traces.
 %
-% for more basic instruction, checkout https://blog.udemy.com/matlab-tutorial/
+% for more basic instruction, checkout this <https://blog.udemy.com/matlab-tutorial/ website> 
 % 
 % 08/2020  Ashley M. Clark 
 
