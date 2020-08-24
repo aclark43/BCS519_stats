@@ -1,5 +1,8 @@
 %%% Matlab tutorial for BCS 519 stats course
+% Looking at x y eye traces.
 %
+% for more basic instruction, checkout https://blog.udemy.com/matlab-tutorial/
+% 
 % 08/2020  Ashley M. Clark 
 
 clear all
@@ -17,9 +20,9 @@ load tutorialData.mat
 %% create concatenated vector of all data
 x = [];
 y = [];
-for numTrials = 1:length(data.individualSizeChar.strokeWidth_4.position)
-    x = [x data.individualSizeChar.strokeWidth_4.position(numTrials).x];
-    y = [y data.individualSizeChar.strokeWidth_4.position(numTrials).y];
+for numTrials = 1:length(data.individualSizeChar.strokeWidth_3.position)
+    x = [x data.individualSizeChar.strokeWidth_3.position(numTrials).x];
+    y = [y data.individualSizeChar.strokeWidth_3.position(numTrials).y];
 end
 
 %% plot histograms
@@ -28,16 +31,31 @@ histogram(x);
 hold on
 histogram(y);
 
-%% Create heatmap histogram
+%% Create 3D histogram
 
-n_bins = 30;
+n_bins = 50;
 limit.xmin = floor(min(x));
 limit.xmax = ceil(max(x));
 limit.ymin = floor(min(y));
 limit.ymax = ceil(max(y));
 
 figure;
-temp = histogram2(x, y, n_bins);%[limit.xmin,limit.xmax,n_bins;limit.ymin,limit.ymax,n_bins]);
+temp = histogram2(x, y, n_bins);
 temp2 = temp.Values;
 result = temp2./(max(max(temp2)));
 
+%% Turn 3D into color histogram
+figure;
+result(result==0)=NaN;
+h = pcolor(linspace(limit.xmin, limit.xmax, size(result, 1)),...
+       linspace(limit.ymin, limit.ymax, size(result, 1)),...
+       result');
+
+colormap(flipud(bone))
+set(h, 'EdgeColor', 'none');
+axis([-15 15 -15 15]);
+hold on
+
+colorbar
+xlabel('X (arcmin)');
+ylabel('Y (arcmin)');
