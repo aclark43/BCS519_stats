@@ -21,9 +21,14 @@ load tutorialData.mat
 %% create concatenated vector of all data
 x = [];
 y = [];
-for numTrials = 1:length(data.individualSizeChar.strokeWidth_3.position)
-    x = [x data.individualSizeChar.strokeWidth_3.position(numTrials).x];
-    y = [y data.individualSizeChar.strokeWidth_3.position(numTrials).y];
+% for numTrials = 1:length(data.individualSizeChar.strokeWidth_3.position)
+%     x = [x data.individualSizeChar.strokeWidth_3.position(numTrials).x];
+%     y = [y data.individualSizeChar.strokeWidth_3.position(numTrials).y];
+% end
+
+for numTrials = 1:length(data.individualSizeChar.strokeWidth_4.position)
+    x = [x data.individualSizeChar.strokeWidth_4.position(numTrials).x];
+    y = [y data.individualSizeChar.strokeWidth_4.position(numTrials).y];
 end
 
 %% plot histograms

@@ -1,0 +1,248 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Week2_AssumptionofModel</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-08-27"><meta name="DC.source" content="Week2_AssumptionofModel.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Week 2 Assignment</a></li><li><a href="#2">Manually Calculate Linear Regression Relation</a></li><li><a href="#3">Use MatLab Linear Model to find coefficients</a></li><li><a href="#8">Let's try with our data!</a></li></ul></div><h2 id="1">Week 2 Assignment</h2><pre class="codeinput">clc
+clear <span class="string">all</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+load(<span class="string">'data.mat'</span>)
+</pre><h2 id="2">Manually Calculate Linear Regression Relation</h2><pre class="codeinput">sizeData = size(data.x);
+
+figure;
+<span class="keyword">for</span> ii = 1:sizeData(2)
+    x = data.x(:,ii);
+    y = data.y(:,ii);
+
+    subplot(3,3,ii)
+    b1 = x\y; <span class="comment">% Find the linear regression relation y=?1*x. The \ operator performs a least-squares regression.</span>
+
+    yCalc1 = b1*x;
+    scatter(x,y)
+    hold <span class="string">on</span>
+    plot(x, yCalc1)
+
+    <span class="comment">%Improve the fit by including a y-intercept ?0 in your model as y=?0+?1x. Calculate ?0by padding x with a column of ones and using the \ operator.</span>
+    hold <span class="string">on</span>
+    X = [ones(length(x),1) x];
+    b = X\y;
+    yCalc2 = X*b;
+    plot(x,yCalc2,<span class="string">'--'</span>)
+
+    grid <span class="string">on</span>
+    title(sprintf(<span class="string">'Var %i'</span>,ii));
+    xlabel(<span class="string">'X Data'</span>)
+    ylabel(<span class="string">'Y Data'</span>);
+<span class="keyword">end</span>
+
+legend(<span class="string">'Data'</span>,<span class="string">'Slope'</span>,<span class="string">'Slope &amp; Intercept'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>);
+</pre><img vspace="5" hspace="5" src="Week2_AssumptionofModel_01.png" alt=""> <h2 id="3">Use MatLab Linear Model to find coefficients</h2><pre class="codeinput">load <span class="string">carsmall</span>
+X = [Weight, Horsepower, Acceleration];
+</pre><pre class="codeinput">mdl = fitlm(X,MPG)
+</pre><pre class="codeoutput">
+mdl = 
+
+
+Linear regression model:
+    y ~ 1 + x1 + x2 + x3
+
+Estimated Coefficients:
+                         Estimate                  SE                    tStat                  pValue       
+                   ____________________    ___________________    ___________________    ____________________
+
+    (Intercept)        47.9767628118615       3.87851641748551        12.369874881944    4.89570341689011e-21
+    x1             -0.00654155878851795    0.00112741016370336      -5.80228828790225    9.87424814144022e-08
+    x2              -0.0429433065881864     0.0243130608813806      -1.76626492228599      0.0807803098213113
+    x3              -0.0115826516894869      0.193325043113178    -0.0599128364487476       0.952359384151779
+
+
+Number of observations: 93, Error degrees of freedom: 89
+Root Mean Squared Error: 4.09
+R-squared: 0.752,  Adjusted R-Squared 0.744
+F-statistic vs. constant model: 90, p-value = 7.38e-27
+</pre><p>The model display includes the model formula, estimated coefficients, and model summary statistics.</p><p>The model formula in the display, y ~ 1 + x1 + x2 + x3, corresponds to y=? 0 +? 1 X 1 +? 2 X 2 +? 3 X 3 +?.</p><p>The model display also shows the estimated coefficient information, which is stored in the Coefficients property. Display the Coefficients property.</p><pre class="codeinput">mdl.Coefficients
+</pre><pre class="codeoutput">
+ans =
+
+  4&times;4 table
+
+                         Estimate                  SE                    tStat                  pValue       
+                   ____________________    ___________________    ___________________    ____________________
+
+    (Intercept)        47.9767628118615       3.87851641748551        12.369874881944    4.89570341689011e-21
+    x1             -0.00654155878851795    0.00112741016370336      -5.80228828790225    9.87424814144022e-08
+    x2              -0.0429433065881864     0.0243130608813806      -1.76626492228599      0.0807803098213113
+    x3              -0.0115826516894869      0.193325043113178    -0.0599128364487476       0.952359384151779
+
+</pre><p>The Coefficient property includes these columns:</p><p>Estimate &#8212; Coefficient estimates for each corresponding term in the model. For example, the estimate for the constant term (intercept) is 47.977.</p><p>SE &#8212; Standard error of the coefficients.</p><p>tStat &#8212; t-statistic for each coefficient to test the null hypothesis that the corresponding coefficient is zero against the alternative that it is different from zero, given the other predictors in the model. Note that tStat = Estimate/SE. For example, the t-statistic for the intercept is 47.977/3.8785 = 12.37.</p><p>pValue &#8212; p-value for the t-statistic of the hypothesis test that the corresponding coefficient is equal to zero or not. For example, the p-value of the t-statistic for x2 is greater than 0.05, so this term is not significant at the 5% significance level given the other terms in the model.</p><p>The summary statistics of the model are:</p><p>Number of observations &#8212; Number of rows without any NaN values. For example, Number of observations is 93 because the MPG data vector has six NaN values and the Horsepower data vector has one NaN value for a different observation, where the number of rows in X and MPG is 100.</p><p>Error degrees of freedom &#8212; n &#8211; p, where n is the number of observations, and p is the number of coefficients in the model, including the intercept. For example, the model has four predictors, so the Error degrees of freedom is 93 &#8211; 4 = 89.</p><p>Root mean squared error &#8212; Square root of the mean squared error, which estimates the standard deviation of the error distribution.</p><p>R-squared and Adjusted R-squared &#8212; Coefficient of determination and adjusted coefficient of determination, respectively. For example, the R-squared value suggests that the model explains approximately 75% of the variability in the response variable MPG.</p><p>F-statistic vs. constant model &#8212; Test statistic for the F-test on the regression model, which tests whether the model fits significantly better than a degenerate model consisting of only a constant term.</p><p>p-value &#8212; p-value for the F-test on the model. For example, the model is significant with a p-value of 7.3816e-27.</p><p>You can find these statistics in the model properties (NumObservations, DFE, RMSE, and Rsquared) and by using the anova function.</p><h2 id="8">Let's try with our data!</h2><p>newDataVars = [Size, Performance, Span];</p><p>Now, I already have prior knowledge about 2 things in my data. (1) Size and performance are directly related, and (2) span directly relates to DC.</p><pre class="codeinput"><span class="comment">% md2 = fitlm(newDataVars, DC);</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Week 2 Assignment
+clc 
+clear all
+%
+%
+load('data.mat')
+
+%% Manually Calculate Linear Regression Relation
+sizeData = size(data.x);
+
+figure;
+for ii = 1:sizeData(2)
+    x = data.x(:,ii);
+    y = data.y(:,ii);
+    
+    subplot(3,3,ii)
+    b1 = x\y; % Find the linear regression relation y=?1*x. The \ operator performs a least-squares regression.
+
+    yCalc1 = b1*x;
+    scatter(x,y)
+    hold on
+    plot(x, yCalc1)
+    
+    %Improve the fit by including a y-intercept ?0 in your model as y=?0+?1x. Calculate ?0by padding x with a column of ones and using the \ operator.
+    hold on
+    X = [ones(length(x),1) x];
+    b = X\y;
+    yCalc2 = X*b;
+    plot(x,yCalc2,'REPLACE_WITH_DASH_DASH')
+    
+    grid on
+    title(sprintf('Var %i',ii));
+    xlabel('X Data')
+    ylabel('Y Data');
+end
+
+legend('Data','Slope','Slope & Intercept','Location','best');
+
+%% Use MatLab Linear Model to find coefficients
+load carsmall
+X = [Weight, Horsepower, Acceleration];
+%%
+mdl = fitlm(X,MPG)
+%%
+% The model display includes the model formula, estimated coefficients, and model summary statistics.
+% 
+% The model formula in the display, y ~ 1 + x1 + x2 + x3, corresponds to y=?
+% 0
+% +?
+% 1
+% X
+% 1
+% +?
+% 2
+% X
+% 2
+% +?
+% 3
+% X
+% 3
+% +?.
+% 
+% The model display also shows the estimated coefficient information, which is stored in the Coefficients property. Display the Coefficients property.
+%%
+mdl.Coefficients
+
+%% 
+% The Coefficient property includes these columns:
+% 
+% Estimate — Coefficient estimates for each corresponding term in the model. For example, the estimate for the constant term (intercept) is 47.977.
+% 
+% SE — Standard error of the coefficients.
+% 
+% tStat — t-statistic for each coefficient to test the null hypothesis that the corresponding coefficient is zero against the alternative that it is different from zero, given the other predictors in the model. Note that tStat = Estimate/SE. For example, the t-statistic for the intercept is 47.977/3.8785 = 12.37.
+% 
+% pValue — p-value for the t-statistic of the hypothesis test that the corresponding coefficient is equal to zero or not. For example, the p-value of the t-statistic for x2 is greater than 0.05, so this term is not significant at the 5% significance level given the other terms in the model.
+% 
+% The summary statistics of the model are:
+% 
+% Number of observations — Number of rows without any NaN values. For example, Number of observations is 93 because the MPG data vector has six NaN values and the Horsepower data vector has one NaN value for a different observation, where the number of rows in X and MPG is 100.
+% 
+% Error degrees of freedom — n – p, where n is the number of observations, and p is the number of coefficients in the model, including the intercept. For example, the model has four predictors, so the Error degrees of freedom is 93 – 4 = 89.
+% 
+% Root mean squared error — Square root of the mean squared error, which estimates the standard deviation of the error distribution.
+% 
+% R-squared and Adjusted R-squared — Coefficient of determination and adjusted coefficient of determination, respectively. For example, the R-squared value suggests that the model explains approximately 75% of the variability in the response variable MPG.
+% 
+% F-statistic vs. constant model — Test statistic for the F-test on the regression model, which tests whether the model fits significantly better than a degenerate model consisting of only a constant term.
+% 
+% p-value — p-value for the F-test on the model. For example, the model is significant with a p-value of 7.3816e-27.
+% 
+% You can find these statistics in the model properties (NumObservations, DFE, RMSE, and Rsquared) and by using the anova function.
+
+%% Let's try with our data!
+% newDataVars = [Size, Performance, Span]; 
+
+%%
+% Now, I already have prior knowledge about 2 things in my data. (1) Size
+% and performance are directly related, and (2) span directly relates to
+% DC.
+
+% md2 = fitlm(newDataVars, DC);
+
+##### SOURCE END #####
+--></body></html>
